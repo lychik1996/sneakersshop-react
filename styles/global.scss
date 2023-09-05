@@ -93,12 +93,13 @@ button{
     width: 960px;
     margin: 0 auto;
     margin-top: 39px;
+    padding-bottom: 40px;
     .contant_top{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         .contant_top-info{
-            font-size: 32px;
+        font-size: 32px;
         font-weight: 700;
         }
         .contant_top-searc{
@@ -129,7 +130,8 @@ button{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 30px;
+    
 }
 .content_item{
     position: relative;
@@ -138,12 +140,15 @@ button{
     border-radius: 40px;
     border: 1px solid #F3F3F3;
     background: #FFF;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    
     
     
     .contant_item-heart{
         position: absolute;
         top: 29px;
         left: 30px;
+        cursor: pointer;
     }
     .cntent_item-img{
         margin-top: 20px;
@@ -176,12 +181,143 @@ button{
             }
         }
         .contant_item_check{
+            cursor: pointer;
 
         }
     }
 
 }
 .content_item:hover{
-    top:-10px;
+    transform: translateY(-10px);
     box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.05);
+}
+.overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    .rightSide{
+        position: absolute;
+        width: 385px;
+        height: 100%;
+        right: 0px;
+        background-color: #FFF;
+        padding: 30px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        
+        .rightSide_basket{
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            
+            img{
+                cursor: pointer;
+                opacity: 0.5;
+                transition: opacity 0.3s ease-in-out;
+                &:hover{
+                    opacity: 1;
+                }
+            }
+        }
+        .rightSide_items{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            overflow: auto;
+            
+            .rightSide_item{
+                width: 323px;
+                height: 119px;
+                border-radius: 20px;
+                border: 1px solid #F3F3F3; 
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                
+                .rightSide_item_img{
+                    margin-left: 20px;
+                    margin-right: 21px;
+                    
+                }
+                .rightSide_item_info{
+                    .rightSide_item_name{
+                        width: 150px;
+
+                    }
+                    .rightSide_item_price{
+                        font-weight: 700;
+
+                    }
+                }
+                .rightSide_item_clear{
+                    width: 32px;
+                    height: 32px;
+                    opacity: 0.5;
+                    transition: opacity 0.3s ease-in-out;
+                    cursor: pointer;
+                    &:hover{
+                        opacity: 1;
+                    }
+
+                }
+            }
+        }
+        .rightSide_price{
+            display: flex;
+            flex-direction: row;
+            width: 325px;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            margin-top: 15px;
+            
+            .rightSide_name{
+                font-size: 16px;
+
+            }
+            .rightSide_string{
+                width: 190px;
+                height: 18px;
+                border-bottom: 1px dashed #DFDFDF;
+            }
+            .rightSide_sum{
+                font-size: 16px;
+                font-weight: 600;
+
+            }
+        }
+        .rightSide_btn{
+            width: 325px;
+            height: 55px;
+            border-radius: 18px;
+            background: #9DD458;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFF;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            
+            cursor: pointer;
+            .rightSide_btn_arrow{
+                position: absolute;
+                right: 80px;
+                transition: transform 0.3s ease-in-out;
+            }
+            &:hover{
+                
+                box-shadow: 0px 5px  5px rgba(0, 0, 0, 0.07);
+                .rightSide_btn_arrow{
+                    transform: translateX(10px);
+                }
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-export default function Header(){
+export default function Header(props){
     return(
         <header className="header">
                 <div className="header_left">
@@ -10,7 +10,7 @@ export default function Header(){
                 </div>
                 
                 <ul className="header_right">
-                    <li className="header_right_elem">
+                    <li onClick={props.onClickBacket} className="header_right_elem">
                             <img src="basket.svg" alt="" className="header_right-basketImg" />
                             <p className="header_right-sum">12000 grn</p>
                     </li>

@@ -1,0 +1,58 @@
+.item{
+    position: relative;
+    width: 210px;
+    height: 260px;  
+    border-radius: 40px;
+    border: 1px solid #F3F3F3;
+    background: #FFF;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    
+    
+    
+    .heart{
+        position: absolute;
+        top: 29px;
+        left: 30px;
+        cursor: pointer;
+    }
+    .img{
+        margin-top: 20px;
+        margin-left: 33px;
+
+    }
+    .name{
+        width: 150px;
+        margin-top: 14px;
+        margin-left: 31px;
+    }
+    .any{
+        width: 151px;
+        display: flex;
+        flex-direction: row;
+        gap: 39px;
+        margin-left: 30px;
+        margin-top: 14px;
+        justify-content: space-between;
+        .info{
+             
+            .top{
+                color: #BDBDBD;
+                font-size: 11px;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+            .price{
+                font-weight: 700;
+            }
+        }
+        .check{
+            cursor: pointer;
+
+        }
+    }
+    &:hover{
+        transform: translateY(-10px);
+        box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.05);
+    }
+
+}

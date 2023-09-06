@@ -1,7 +1,7 @@
  import style from "./Card.module.scss"
  import { useState} from "react"
 
- export default function Card({ name, price, src, onFavorite, onPlus}){
+ export default function Card({ name, price, src, onPlus, onFavorite}){
     const [isAdded, setIsAdded] = useState(false);
     const [isHeart, setIsHeart] = useState(false);
     
@@ -13,7 +13,6 @@
         onFavorite({name, price, src})
         setIsHeart(!isHeart);
     }
-    
     
     return(
         <li className={style.item}>

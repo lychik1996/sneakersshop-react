@@ -1,11 +1,12 @@
 import "../styles/global.scss"
 import Head from "next/head"
-import Card from "@/components/Card/Card"
 import Header from "@/components/Header"
 import Overlay from "@/components/Overlay"
 import { useState, useEffect } from "react"
-
-
+import axios from "axios"
+import Home from "../components/Home"
+import { useRouter } from "next/router"
+import Favorite from "@/pages/favorite"
 
 
 export default function App(){
@@ -13,52 +14,56 @@ export default function App(){
     const [items, setItems] = useState([]);
     const [basketItems, setBasketItems] = useState([]);
     const [searchValue, setSearcValue] = useState("");
+    const [favoriteItems, setFavoriteItems] = useState([]);
+    const [favorite, setFavorite] = useState(false);
+
+    const router = useRouter();
+    
 
 
     useEffect(()=>{
-        fetch("item.json")
-        .then(res=>{
-            return res.json();
+        axios.get("item.json")
+        .then((res)=>{
+            setItems(res.data);
         })
-        .then(item=>{
-            setItems(item);
+        axios.get("https://64f732139d775408495346e8.mockapi.io/basketItems")
+        .then((res)=>{
+            setBasketItems(res.data);
+        })
+        axios.get("https://64f732139d775408495346e8.mockapi.io/favoriteItems")
+        .then((res)=>{
+            setFavoriteItems(res.data);
         })
     },[]);
 
-
-    const onAddTocard = (obj)=>{
-        const isItemInBasket = basketItems.some((item) => item.src === obj.src);//estb li takoy obekt v massive
-        if(isItemInBasket){
-            const updateBasketItems = basketItems.filter((item)=>item.src !== obj.src)
-            setBasketItems(updateBasketItems);
-        } else{
-            setBasketItems((prev)=>[...prev, obj])
-        }
+    
+    const onAddToCard = (obj)=>{
+        axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
+        setBasketItems((prev)=>[...prev, obj]);
+            
     }
-    console.log(basketItems);
+    
+    const onRemoveCard =(id)=>{
+        axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${id}`);
+        setBasketItems((prev)=>prev.filter((item)=>item.id !== id));
+    }
+
+
+    const onAddToFavorite = (obj)=>{
+        axios.post("https://64f732139d775408495346e8.mockapi.io/favoriteItems", obj)
+        setFavoriteItems((prev)=>[...prev, obj]);
+    }
+
+    const onRemoveFavorite=(id)=>{
+        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${id}`)
+        setFavoriteItems((prev)=>prev.filter((item)=>item.id !== id));
+    }
+
 
     const onChangeSearchInput =(event)=>{
         
         setSearcValue(event.target.value);
     }
-
-    
-    
-    
-
-    const cards = items
-    .filter((item)=>item.name.toLowerCase().includes(searchValue.toLowerCase()))
-    .map(card=>
-        <Card 
-        key ={card.key}
-        name={card.name}
-        price={card.price}
-        src={card.src}
-        onFavorite ={()=>console.log("heart")}
-        onPlus ={(obj)=>onAddTocard(obj)}
-        />
-    )
-    
     
     return(
         
@@ -69,23 +74,25 @@ export default function App(){
             </Head>
             <div className="wrapper">
             
-                {basket && <Overlay items ={basketItems}  onClickClose ={()=>setBasket(false)}  />}
+                {basket && <Overlay items ={basketItems}  onClickClose ={()=>setBasket(false)} onRemove={onRemoveCard} />}
+                
                 <Header
                     onClickBacket ={()=>setBasket(true)}
-                />         
-                <div className="slider"></div>
-                <div className="contant">
-                    <div className="contant_top">
-                        <h3 className="contant_top-info">{searchValue? `Search by: "${searchValue}"`: "All sneakers"}</h3>
-                        <input onChange={onChangeSearchInput} value={searchValue} type="search" className="contant_top-searc" placeholder="Search..."/>
-                    </div>
-                    
-                    <ul className="contant_items">
-                        {cards}                 
-                    </ul>
-                </div>
+                    // onClickFavorite = {()=>setFavorite(true)}
+                />
+                
+                {/* {favorite && <Favorite items = {favoriteItems} onClickClose ={()=>setFavorite(false)} onRemove={onRemoveFavorite} />}         */}
+                {(router.pathname !== "/favorite")? 
+                (<Home 
+                searchValue={searchValue}
+                onChangeSearchInput={onChangeSearchInput}
+                items={items}
+                onAddToCard={(obj)=>onAddToCard(obj)}
+                onAddToFavorite={(obj)=>onAddToFavorite(obj)}/>): 
+                (<Favorite/>) }
+                
             </div>
         </div>
-         
+        
     )
 }

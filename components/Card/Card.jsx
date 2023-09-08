@@ -1,21 +1,21 @@
  import style from "./Card.module.scss"
  import { useState} from "react"
 
- export default function Card({ name, price, src, onPlus, onFavorite}){
+ export default function Card({ id, name, price, src, onPlus, onFavorite, isFavorite = false,}){
     const [isAdded, setIsAdded] = useState(false);
-    const [isHeart, setIsHeart] = useState(false);
+    const [isHeart, setIsHeart] = useState(isFavorite);
     
     const check = ()=>{
         onPlus({name, price, src});
         setIsAdded(!isAdded);
     }
     const heart = ()=>{
-        onFavorite({name, price, src})
+        onFavorite({name, price, src, id})
         setIsHeart(!isHeart);
     }
     
     return(
-        <li className={style.item}>
+        <li className={style.item} >
             <img src={!isHeart?"heartForSneakers1.png" : "heartForSneakers2.svg" } alt=""  className={style.heart} onClick={heart}/>
             <img src={src} alt="" className={style.img} />
             <p className={style.name}>{name}</p>

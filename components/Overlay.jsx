@@ -17,7 +17,7 @@ export default function Overlay({onClickClose, items = [],onRemove }){
                     <img src="basketClear.png" alt="" className="rightSide_clear_img" />
                     <p className="rightSide_clear_top">Basket is empty</p>
                     <p className="rightSide_clear_bot">Add at least one pair of sneakers to place an order.</p>
-                    <button className="rightSide_clear_btn" onClick={onClickClose}> <img className="rightSide_btn_arrow" src="arrow.svg" alt="" /> Come back</button>
+                    <button className="rightSide_clear_btn" onClick={onClickClose}> <img className="rightSide_btn_arrow" src="arrowLeft.svg" alt="" /> Come back</button>
             </div> 
             </>
         )

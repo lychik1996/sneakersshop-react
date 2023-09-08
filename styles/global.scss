@@ -216,11 +216,19 @@ a{
             position: relative;
             box-sizing: border-box;
             padding-left: 30px;
+            transition: transform, box-shadow 0.3s ease-in-out;
             .rightSide_btn_arrow{
-                transform: rotate(180deg);
                 position: absolute;
                 left:40px;
                 top:21px;
+                transition: transform 0.3s ease-in-out;
+            }
+            &:hover{
+                transform: translateY(-3px);
+                box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+                .rightSide_btn_arrow{
+                    transform: translateX(-10px) ;
+                }
             }
         }
     }
@@ -319,3 +327,63 @@ a{
     }
 }
 
+.favorite{
+    display: flex;
+    gap: 21px;
+    .favorite_top{
+        font-size: 32px;
+        font-weight: 700;
+        
+    }
+}
+.favorite_clear{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .clear_img{
+        width: 70px;
+        height: 70px;   
+    }
+    .clear_top{
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .clear_bot{
+        font-size: 16px;
+        font-weight: 400;
+        opacity: 0.4;
+    }
+    .clear_btn{
+        width: 245px;
+            height: 55px;
+            border-radius: 18px;
+            background: #9DD458;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+            padding-left: 30px;
+            cursor: pointer;
+            transition: box-shadow, transform 0.3s ease-in-out;
+            
+        .clear_btnImg{
+            
+            
+            position: absolute;
+            left:40px;
+            top:21px;
+            transition: transform 0.3s ease-in-out;
+        }
+        &:hover{
+            transform: translateY(-3px);
+            box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+            .clear_btnImg{
+                transform: translateX(-10px) ;
+            }
+        }
+    }
+}

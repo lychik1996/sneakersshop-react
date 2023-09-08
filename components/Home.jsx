@@ -14,10 +14,8 @@ export default function Home ({searchValue,onChangeSearchInput,items, onAddToCar
                 .map(card=>
                     <Card 
                     key ={card.key}
-                    name={card.name}
-                    price={card.price}
-                    src={card.src}
-                    onFavorite ={(obj)=>onAddToFavorite(obj)}
+                    {...card}
+                    onFavorite ={onAddToFavorite}
                     onPlus ={(obj)=>onAddToCard(obj)}
                     />
                 )}                 

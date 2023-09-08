@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Home from "../components/Home"
 import { useRouter } from "next/router"
-import Favorite from "@/pages/favorite"
+import Favorites from "@/pages/favorite"
 
 
 export default function App(){
@@ -37,9 +37,9 @@ export default function App(){
     },[]);
 
     
-    const onAddToCard = (obj)=>{
-        axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
-        setBasketItems((prev)=>[...prev, obj]);
+    const onAddToCard = async (obj)=>{
+        const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
+        setBasketItems((prev)=>[...prev, data]);
             
     }
     
@@ -49,16 +49,17 @@ export default function App(){
     }
 
 
-    const onAddToFavorite = (obj)=>{
-        axios.post("https://64f732139d775408495346e8.mockapi.io/favoriteItems", obj)
-        setFavoriteItems((prev)=>[...prev, obj]);
+    const onAddToFavorite =  async (obj)=>{
+        
+        if(favoriteItems.find(favObj=>favObj.id === obj.id)){
+        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${obj.id}`);
+        setFavoriteItems((prev)=>prev.filter((item)=>item.id !== obj.id));
+        } else{
+            const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/favoriteItems", obj)
+            setFavoriteItems((prev)=>[...prev, data]);
+            
+        }
     }
-
-    const onRemoveFavorite=(id)=>{
-        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${id}`)
-        setFavoriteItems((prev)=>prev.filter((item)=>item.id !== id));
-    }
-
 
     const onChangeSearchInput =(event)=>{
         
@@ -87,9 +88,12 @@ export default function App(){
                 searchValue={searchValue}
                 onChangeSearchInput={onChangeSearchInput}
                 items={items}
-                onAddToCard={(obj)=>onAddToCard(obj)}
-                onAddToFavorite={(obj)=>onAddToFavorite(obj)}/>): 
-                (<Favorite/>) }
+                onAddToCard={onAddToCard}
+                onAddToFavorite={onAddToFavorite}/>): 
+                (<Favorites
+                items={favoriteItems}
+                onAddToFavorite={onAddToFavorite}
+                onAddToCard={onAddToCard}/>) }
                 
             </div>
         </div>

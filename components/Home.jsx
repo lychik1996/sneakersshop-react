@@ -1,5 +1,5 @@
 import Card from "@/components/Card/Card"
-export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,basketItems, favoriteItems}){
+export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,basketItems, favoriteItems,}){
     return(
         <div className="contant">
             <div className="slider"></div>
@@ -12,7 +12,8 @@ export default function Home ({searchValue,onChangeSearchInput,items, onAddToCar
                 {items
                 .filter((item)=>item.name.toLowerCase().includes(searchValue.toLowerCase()))
                 .map(card=>
-                    <Card 
+                    <Card
+                    
                     key ={card.key}
                     {...card}
                     onFavorite ={onAddToFavorite}

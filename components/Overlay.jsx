@@ -1,15 +1,20 @@
-export default function Overlay({onClickClose, items = [],onRemove }){
+export default function Overlay({onClickClose, items = [],onRemove, }){
 
-    const elem = items.map((obj, index)=>(
+    const elem = items
+    .map((obj, index)=>(
         <li className="rightSide_item" key={index}>
             <img src={obj.src} alt="" className="rightSide_item_img" width={70} height={70} />
             <div className="rightSide_item_info">
                 <p className="rightSide_item_name">{obj.name}</p>
                 <p className="rightSide_item_price">{obj.price} grn</p>
             </div>
-            <img onClick={()=>onRemove(obj.id)} src="clear.png" alt="" className="rightSide_item_clear" />
+            <img onClick={()=>onRemove(obj.preid)} src="clear.png" alt="" className="rightSide_item_clear" />
         </li>
     ))
+    const suma = items.reduce((acum, obj)=>{
+        return acum + obj.price;
+    },0);
+    
     const Clear = ()=>{
         return(
             <>
@@ -41,7 +46,7 @@ export default function Overlay({onClickClose, items = [],onRemove }){
             <div className="rightSide_price">
                 <p className="rightSide_name">Total:</p>
                 <div className="rightSide_string"></div>
-                <p className="rightSide_sum">5 000 grn</p>
+                <p className="rightSide_sum">{suma} grn</p>
             </div>
             <button className="rightSide_btn">Checkout <img src="arrow.svg" alt="" className="rightSide_btn_arrow" /></button>
             </>

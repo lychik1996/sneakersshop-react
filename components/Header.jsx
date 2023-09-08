@@ -21,7 +21,7 @@ export default function Header(props){
                 <ul className="header_right">
                     <li onClick={props.onClickBacket} className="header_right_elem">
                             <img src="basket.svg" alt="" className="header_right-basketImg" />
-                            <p className="header_right-sum">12000 grn</p>
+                            <p className="header_right-sum">{props.suma} grn</p>
                     </li>
                     <li className="header_right_elem" onClick={props.onClickFavorite}>
                         <Link href="/favorite"><img src="heart.svg" alt="" className="header_right-heartImg" /></Link>

@@ -17,8 +17,10 @@ export default function App(){
     const [searchValue, setSearcValue] = useState("");
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [favorite, setFavorite] = useState(false);
-
+    const [suma, setSuma] = useState(0);
     const router = useRouter();
+    
+    
     
 
 
@@ -31,6 +33,11 @@ export default function App(){
             setBasketItems(cartResponse.data);
             setFavoriteItems(favoriteResponse.data);
             setItems(itemsResponse.data);
+            
+            const calcSum = cartResponse.data.reduce((acum, obj)=>{
+                return acum+obj.price;
+            }, 0);
+            setSuma(calcSum);
         }
        
         data();
@@ -38,22 +45,39 @@ export default function App(){
 
     
     const onAddToCard = async (obj)=>{
-        console.log(obj);
+        
         if(basketItems.find(favObj =>favObj.preid == obj.preid)){
-            axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${obj.preid}`) 
+             await axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${obj.preid}`) 
             setBasketItems((prev)=>prev.filter((item)=>item.preid != obj.preid));
+            
+              
                  
         }else{
             const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
             setBasketItems((prev)=>[...prev, data]);
-        }         
+            
+        }   
+        updateSuma();      
     }
     
-    const onRemoveCard =(preid)=>{
+    const onRemoveCard = (preid)=>{
         axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${preid}`);
         setBasketItems((prev)=>prev.filter((item)=>item.preid != preid));
-    }
+        updateSuma();
+        
 
+    }
+    const updateSuma = () => {
+        const newSuma = basketItems.reduce((acum, obj) => {
+          return acum + obj.price;
+        }, 0);
+        setSuma(newSuma);
+        
+      };
+      useEffect(() => {
+        updateSuma();
+      }, [basketItems]);
+    
 
     const onAddToFavorite =  async (obj)=>{
         
@@ -67,6 +91,8 @@ export default function App(){
         }
     }
 
+   
+     
     const onChangeSearchInput =(event)=>{
         
         setSearcValue(event.target.value);
@@ -89,7 +115,8 @@ export default function App(){
                 onChangeSearchInput={onChangeSearchInput}
                 items={items}
                 onAddToCard={onAddToCard}
-                onAddToFavorite={onAddToFavorite}/>
+                onAddToFavorite={onAddToFavorite}
+                />
         }
     }
     
@@ -102,11 +129,12 @@ export default function App(){
             </Head>
             <div className="wrapper">
             
-                {basket && <Overlay items ={basketItems}  onClickClose ={()=>setBasket(false)} onRemove={onRemoveCard} />}
+                {basket && <Overlay  items ={basketItems}  onClickClose ={()=>setBasket(false)} onRemove={onRemoveCard} />}
                 
                 <Header
+                    suma={suma}
                     onClickBacket ={()=>setBasket(true)}
-                    // onClickFavorite = {()=>setFavorite(true)}
+                    
                 />
                 
                 {/* {favorite && <Favorite items = {favoriteItems} onClickClose ={()=>setFavorite(false)} onRemove={onRemoveFavorite} />}         */}

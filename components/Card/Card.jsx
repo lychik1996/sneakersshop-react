@@ -1,14 +1,20 @@
  import style from "./Card.module.scss"
  import { useState} from "react"
+ 
 
- export default function Card({ preid, name, price, src, onPlus, onFavorite, isFavorite = false, added=false }){
+ export default function Card({ preid, name, price, src, onPlus, onFavorite, isFavorite = false , added = false, }){
+    
     const [isAdded, setIsAdded] = useState(added);
+    console.log(isAdded);
+    
     const [isHeart, setIsHeart] = useState(isFavorite);
     
     const check = ()=>{
         onPlus({name, price, src, preid});
         setIsAdded(!isAdded);
+          
     }
+    
     const heart = ()=>{
         onFavorite({name, price, src, preid})
         setIsHeart(!isHeart);
@@ -24,7 +30,7 @@
                     <p className={style.top}>Price:</p>
                     <p className={style.price}>{price} grn.</p>
                 </div>
-                <img src={!isAdded?"./check1.svg" : "./check2.svg"} alt="" className={style.check} onClick={check} />
+                <img src={!isAdded?"check1.svg" : "check2.svg"} alt="" className={style.check} onClick={check} />
             </div>
         </li>
     

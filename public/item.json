@@ -1,14 +1,14 @@
 [
-    { "key": 1, "id": 1,"name": "Nike Blazer Mid Suede Men's Sneakers", "price": 5000,"src":"./sneakers/sneakers1.png"},
-    { "key": 2,"id": 2, "name":"Nike Blazer Mid Suede Men's Sneakers", "price":8500, "src":"./sneakers/sneakers2.png"},
-    { "key": 3,"id": 3,"name": "Puma X Aka Boku Future Rider sneakers", "price":9000, "src":"./sneakers/sneakers3.png" },
-    { "key": 4,"id": 4,"name": "Nike Air Max 270 Men's Running Shoes", "price":12000, "src":"./sneakers/sneakers4.png" },
-    { "key": 5,"id": 5,"name": "Under Armor Curry 8 Men's Sneakers", "price":4000, "src":"./sneakers/sneakers5.png" },
-    { "key": 6,"id": 6,"name": "Мужские Кроссовки Nike Kyrie 7", "price":6000, "src":"./sneakers/sneakers6.png" },
-    { "key": 7,"id": 7,"name": "Jordan Air Jordan 11 Men's Sneakers", "price":5500, "src":"./sneakers/sneakers7.png" },
-    { "key": 8,"id": 8,"name": "Nike LeBron XVIII Men's Sneakers", "price":7890, "src":"./sneakers/sneakers8.png" },
-    { "key": 9,"id": 9,"name": "Nike Lebron XVIII Low Men's Sneakers", "price":4000, "src":"./sneakers/sneakers9.png" },
-    { "key": 10,"id": 10,"name": "Nike Blazer Mid Suede Men's Sneakers", "price":9000, "src":"./sneakers/sneakers10.png" },
-    { "key": 11,"id": 11,"name": "Puma X Aka Boku Future Rider sneakers", "price":11000, "src":"./sneakers/sneakers11.png" },
-    { "key": 12,"id": 12,"name": "Nike Kyrie Flytrap IV Men's Sneakers", "price":8000, "src":"./sneakers/sneakers12.png" }
+    { "key": 1, "preid": "1","name": "Nike Blazer Mid Suede Men's Sneakers", "price": 5000,"src":"./sneakers/sneakers1.png"},
+    { "key": 2,"preid": "2", "name":"Nike Blazer Mid Suede Men's Sneakers", "price":8500, "src":"./sneakers/sneakers2.png"},
+    { "key": 3,"preid": "3","name": "Puma X Aka Boku Future Rider sneakers", "price":9000, "src":"./sneakers/sneakers3.png" },
+    { "key": 4,"preid": "4","name": "Nike Air Max 270 Men's Running Shoes", "price":12000, "src":"./sneakers/sneakers4.png" },
+    { "key": 5,"preid": "5","name": "Under Armor Curry 8 Men's Sneakers", "price":4000, "src":"./sneakers/sneakers5.png" },
+    { "key": 6,"preid": "6","name": "Мужские Кроссовки Nike Kyrie 7", "price":6000, "src":"./sneakers/sneakers6.png" },
+    { "key": 7,"preid": "7","name": "Jordan Air Jordan 11 Men's Sneakers", "price":5500, "src":"./sneakers/sneakers7.png" },
+    { "key": 8,"preid": "8","name": "Nike LeBron XVIII Men's Sneakers", "price":7890, "src":"./sneakers/sneakers8.png" },
+    { "key": 9,"preid": "9","name": "Nike Lebron XVIII Low Men's Sneakers", "price":4000, "src":"./sneakers/sneakers9.png" },
+    { "key": 10,"preid": "10","name": "Nike Blazer Mid Suede Men's Sneakers", "price":9000, "src":"./sneakers/sneakers10.png" },
+    { "key": 11,"preid": "11","name": "Puma X Aka Boku Future Rider sneakers", "price":11000, "src":"./sneakers/sneakers11.png" },
+    { "key": 12,"preid": "12","name": "Nike Kyrie Flytrap IV Men's Sneakers", "price":8000, "src":"./sneakers/sneakers12.png" }
 ]

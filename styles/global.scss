@@ -327,16 +327,16 @@ a{
     }
 }
 
-.favorite{
+.favorite, .order{
     display: flex;
     gap: 21px;
-    .favorite_top{
+    .favorite_top, .order_top{
         font-size: 32px;
         font-weight: 700;
         
     }
 }
-.favorite_clear{
+.favorite_clear, .orders_clear{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -387,3 +387,5 @@ a{
         }
     }
 }
+
+

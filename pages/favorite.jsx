@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Card from "@/components/Card/Card";
-export default function Favorites ({items = [],onAddToFavorite, onAddToCard}){
+export default function Favorites ({items = [],onAddToFavorite, onAddToCard,basketItems}){
 
     const Clear = ()=>{
         return (
@@ -34,6 +34,7 @@ export default function Favorites ({items = [],onAddToFavorite, onAddToCard}){
                     onFavorite ={onAddToFavorite}
                     onPlus ={onAddToCard}
                     isFavorite = {true}
+                    added = {basketItems.some(obj=>obj.preid == card.preid )}
                     {...card}
                     />
                 )} 

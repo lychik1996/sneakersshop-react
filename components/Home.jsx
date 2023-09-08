@@ -1,5 +1,5 @@
 import Card from "@/components/Card/Card"
-export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,}){
+export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,basketItems, favoriteItems}){
     return(
         <div className="contant">
             <div className="slider"></div>
@@ -17,6 +17,8 @@ export default function Home ({searchValue,onChangeSearchInput,items, onAddToCar
                     {...card}
                     onFavorite ={onAddToFavorite}
                     onPlus ={(obj)=>onAddToCard(obj)}
+                    added = {basketItems.some(obj=>obj.preid == card.preid)}
+                    isFavorite = {favoriteItems.some(obj => obj.preid == card.preid)}
                     />
                 )}                 
             </ul>

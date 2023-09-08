@@ -16,7 +16,7 @@ export default function Header(props){
     return(
         <header className="header">
             
-            {(router.pathname !== "/favorite")? <Head/> : <Link href="/"><Head/></Link>}
+            {(router.pathname !== "/favorite" && router.pathname !== "/orders" )? <Head/> : <Link href="/"><Head/></Link>}
                 
                 <ul className="header_right">
                     <li onClick={props.onClickBacket} className="header_right_elem">
@@ -28,7 +28,10 @@ export default function Header(props){
                         
                     </li>
                     <li className="header_right_elem">
-                            <img src="profile.svg" alt="" className="header_right-profileImg" />
+                        <Link href="/orders">
+                        <img src="profile.svg" alt="" className="header_right-profileImg" />
+                        </Link>
+                            
                     </li>
                 </ul>
             </header>

@@ -7,6 +7,7 @@ import axios from "axios"
 import Home from "../components/Home"
 import { useRouter } from "next/router"
 import Favorites from "@/pages/favorite"
+import Orders from "./orders"
 
 
 export default function App(){
@@ -22,38 +23,43 @@ export default function App(){
 
 
     useEffect(()=>{
-        axios.get("item.json")
-        .then((res)=>{
-            setItems(res.data);
-        })
-        axios.get("https://64f732139d775408495346e8.mockapi.io/basketItems")
-        .then((res)=>{
-            setBasketItems(res.data);
-        })
-        axios.get("https://64f732139d775408495346e8.mockapi.io/favoriteItems")
-        .then((res)=>{
-            setFavoriteItems(res.data);
-        })
+        async function data (){
+            const cartResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/basketItems");
+            const favoriteResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/favoriteItems");
+            const itemsResponse = await axios.get("item.json");
+            
+            setBasketItems(cartResponse.data);
+            setFavoriteItems(favoriteResponse.data);
+            setItems(itemsResponse.data);
+        }
+       
+        data();
     },[]);
 
     
     const onAddToCard = async (obj)=>{
-        const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
-        setBasketItems((prev)=>[...prev, data]);
-            
+        console.log(obj);
+        if(basketItems.find(favObj =>favObj.preid == obj.preid)){
+            axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${obj.preid}`) 
+            setBasketItems((prev)=>prev.filter((item)=>item.preid != obj.preid));
+                 
+        }else{
+            const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
+            setBasketItems((prev)=>[...prev, data]);
+        }         
     }
     
-    const onRemoveCard =(id)=>{
-        axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${id}`);
-        setBasketItems((prev)=>prev.filter((item)=>item.id !== id));
+    const onRemoveCard =(preid)=>{
+        axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${preid}`);
+        setBasketItems((prev)=>prev.filter((item)=>item.preid != preid));
     }
 
 
     const onAddToFavorite =  async (obj)=>{
         
-        if(favoriteItems.find(favObj=>favObj.id === obj.id)){
-        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${obj.id}`);
-        setFavoriteItems((prev)=>prev.filter((item)=>item.id !== obj.id));
+        if(favoriteItems.find(favObj=>favObj.preid == obj.preid)){
+        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${obj.preid}`);
+        setFavoriteItems((prev)=>prev.filter((item)=>item.preid != obj.preid))
         } else{
             const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/favoriteItems", obj)
             setFavoriteItems((prev)=>[...prev, data]);
@@ -64,6 +70,27 @@ export default function App(){
     const onChangeSearchInput =(event)=>{
         
         setSearcValue(event.target.value);
+    }
+    const route = ()=>{
+        if(router.pathname === "/favorite"){
+            return <Favorites
+                items={favoriteItems}
+                onAddToFavorite={onAddToFavorite}
+                onAddToCard={onAddToCard}
+                basketItems={basketItems}/>
+        }else if(router.pathname === "/orders"){
+             return <Orders
+                />
+        }else{
+            return <Home 
+                favoriteItems={favoriteItems}
+                basketItems={basketItems}
+                searchValue={searchValue}
+                onChangeSearchInput={onChangeSearchInput}
+                items={items}
+                onAddToCard={onAddToCard}
+                onAddToFavorite={onAddToFavorite}/>
+        }
     }
     
     return(
@@ -83,17 +110,7 @@ export default function App(){
                 />
                 
                 {/* {favorite && <Favorite items = {favoriteItems} onClickClose ={()=>setFavorite(false)} onRemove={onRemoveFavorite} />}         */}
-                {(router.pathname !== "/favorite")? 
-                (<Home 
-                searchValue={searchValue}
-                onChangeSearchInput={onChangeSearchInput}
-                items={items}
-                onAddToCard={onAddToCard}
-                onAddToFavorite={onAddToFavorite}/>): 
-                (<Favorites
-                items={favoriteItems}
-                onAddToFavorite={onAddToFavorite}
-                onAddToCard={onAddToCard}/>) }
+                {route()}
                 
             </div>
         </div>

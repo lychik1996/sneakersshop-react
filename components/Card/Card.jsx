@@ -1,16 +1,16 @@
  import style from "./Card.module.scss"
  import { useState} from "react"
 
- export default function Card({ id, name, price, src, onPlus, onFavorite, isFavorite = false,}){
-    const [isAdded, setIsAdded] = useState(false);
+ export default function Card({ preid, name, price, src, onPlus, onFavorite, isFavorite = false, added=false }){
+    const [isAdded, setIsAdded] = useState(added);
     const [isHeart, setIsHeart] = useState(isFavorite);
     
     const check = ()=>{
-        onPlus({name, price, src});
+        onPlus({name, price, src, preid});
         setIsAdded(!isAdded);
     }
     const heart = ()=>{
-        onFavorite({name, price, src, id})
+        onFavorite({name, price, src, preid})
         setIsHeart(!isHeart);
     }
     

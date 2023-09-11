@@ -12,8 +12,8 @@ export default function Favorites ({onAddToFavorite, onAddToCard,basketItems}){
             <>
             <div className="favorite_clear">
                 <img className="clear_img" src="favoriteClear.png" alt="" />
-                <p className="clear_top">No Favorite :(</p>
-                <p className="clear_bot">You haven't bookmarked anything</p>
+                <p className="clear_top">No Favorite </p>
+                <p className="clear_bot">You havent bookmarked anything</p>
                 <Link href="/">
                 <button className="clear_btn"><img className="clear_btnImg"src="arrowLeft.svg" alt="" />Come back</button>
                 </Link>

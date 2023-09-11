@@ -1,5 +1,6 @@
+import { useState } from "react";
 export default function Overlay({onClickClose, items = [],onRemove, }){
-
+const [showOrder, setShowOrder] = useState(false);
     const elem = items
     .map((obj, index)=>(
         <li className="rightSide_item" key={index}>
@@ -33,10 +34,11 @@ export default function Overlay({onClickClose, items = [],onRemove, }){
                     <img src="basketChecked.png" alt="" className="checked_img" />
                     <p className="rightSide_clear_top checked_top">Order is processed!</p>
                     <p className="rightSide_clear_bot">Your order #18 will be delivered to courier soon</p>
-                    <button className="rightSide_clear_btn"> <img className="rightSide_btn_arrow" src="arrow.svg" alt="" /> Come back</button>
+                    <button className="rightSide_clear_btn" onClick={onClickClose}> <img className="rightSide_btn_arrow" src="arrow.svg" alt="" /> Come back</button>
             </div>
         )
     }
+    
     const Cards = ()=>{
         return(
             <>
@@ -48,7 +50,7 @@ export default function Overlay({onClickClose, items = [],onRemove, }){
                 <div className="rightSide_string"></div>
                 <p className="rightSide_sum">{suma} grn</p>
             </div>
-            <button className="rightSide_btn">Checkout <img src="arrow.svg" alt="" className="rightSide_btn_arrow" /></button>
+            <button className="rightSide_btn" onClick={()=>setShowOrder(true)}>Checkout <img src="arrow.svg" alt="" className="rightSide_btn_arrow" /></button>
             </>
         )
     }
@@ -59,7 +61,8 @@ export default function Overlay({onClickClose, items = [],onRemove, }){
         </div>
         <div className="rightSide">
                 <h3 className="rightSide_basket">Basket <img onClick={onClickClose} src="clear.png" alt="" className="rightSide_item_clear" /></h3>
-                {(items.length > 0? <Cards/> : <Clear/>)}
+                {showOrder?<Order/>:(items.length > 0? <Cards/> : <Clear/>)}
+                
             </div>
         </>
         

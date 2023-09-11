@@ -1,7 +1,12 @@
 import Link from "next/link";
 import Card from "@/components/Card/Card";
-export default function Favorites ({items = [],onAddToFavorite, onAddToCard,basketItems}){
+import AppContext from "@/components/Context";
+import { useContext } from "react";
 
+export default function Favorites ({onAddToFavorite, onAddToCard,basketItems}){
+ const {favoriteItems} = useContext(AppContext);
+ 
+ 
     const Clear = ()=>{
         return (
             <>
@@ -27,7 +32,7 @@ export default function Favorites ({items = [],onAddToFavorite, onAddToCard,bask
             </div>
             
             <ul className="contant_items">
-            {items
+            {favoriteItems
                 .map(card=>
                     <Card 
                     key ={card.key}
@@ -44,7 +49,7 @@ export default function Favorites ({items = [],onAddToFavorite, onAddToCard,bask
     }
     return(
         <div className="contant">
-               {items.length>0? <Cards/>: <Clear/>}        
+               {favoriteItems.length>0? <Cards/>: <Clear/>}        
             
         </div>
     )

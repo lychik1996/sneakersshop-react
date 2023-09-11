@@ -1,5 +1,25 @@
-import Card from "@/components/Card/Card"
-export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,basketItems, favoriteItems,}){
+import Card from "@/components/Card/Card";
+import { v4 as uuidv4 } from 'uuid';
+
+
+export default function Home ({searchValue,onChangeSearchInput,items, onAddToCard,onAddToFavorite,basketItems, favoriteItems,isLoading}){
+    
+    const renderItems=()=>{
+        const array = [...Array(12)];
+        return( (isLoading?array: items.filter((item)=>item.name.toLowerCase().includes(searchValue.toLowerCase())))
+                .map(card=>
+                    <Card
+                    key ={!isLoading ? card.key: uuidv4()}
+                    {...card}
+                    onFavorite ={onAddToFavorite}
+                    onPlus ={(obj)=>onAddToCard(obj)}
+                    
+                    isFavorite = {favoriteItems.some(obj => obj.preid == card.preid)}
+                    loading={isLoading}
+                    />
+                )
+        )
+    }
     return(
         <div className="contant">
             <div className="slider"></div>
@@ -9,19 +29,7 @@ export default function Home ({searchValue,onChangeSearchInput,items, onAddToCar
             </div>
             
             <ul className="contant_items">
-                {items
-                .filter((item)=>item.name.toLowerCase().includes(searchValue.toLowerCase()))
-                .map(card=>
-                    <Card
-                    
-                    key ={card.key}
-                    {...card}
-                    onFavorite ={onAddToFavorite}
-                    onPlus ={(obj)=>onAddToCard(obj)}
-                    added = {basketItems.some(obj=>obj.preid == card.preid)}
-                    isFavorite = {favoriteItems.some(obj => obj.preid == card.preid)}
-                    />
-                )}                 
+                {renderItems()}                 
             </ul>
         </div>
     )

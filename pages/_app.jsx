@@ -8,6 +8,9 @@ import Home from "../components/Home"
 import { useRouter } from "next/router"
 import Favorites from "@/pages/favorite"
 import Orders from "./orders"
+import AppContext from "@/components/Context"
+
+
 
 
 export default function App(){
@@ -19,16 +22,21 @@ export default function App(){
     const [favorite, setFavorite] = useState(false);
     const [suma, setSuma] = useState(0);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
     
     
     
-
-
     useEffect(()=>{
         async function data (){
             const cartResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/basketItems");
+            
+            
             const favoriteResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/favoriteItems");
             const itemsResponse = await axios.get("item.json");
+            setIsLoading(false);
+            
+            
+            
             
             setBasketItems(cartResponse.data);
             setFavoriteItems(favoriteResponse.data);
@@ -41,6 +49,7 @@ export default function App(){
         }
        
         data();
+        
     },[]);
 
     
@@ -64,8 +73,6 @@ export default function App(){
         axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${preid}`);
         setBasketItems((prev)=>prev.filter((item)=>item.preid != preid));
         updateSuma();
-        
-
     }
     const updateSuma = () => {
         const newSuma = basketItems.reduce((acum, obj) => {
@@ -74,9 +81,11 @@ export default function App(){
         setSuma(newSuma);
         
       };
-      useEffect(() => {
-        updateSuma();
-      }, [basketItems]);
+
+    useEffect(() => {
+    updateSuma();
+    }, [basketItems]);
+    
     
 
     const onAddToFavorite =  async (obj)=>{
@@ -90,6 +99,9 @@ export default function App(){
             
         }
     }
+    const isAddedItems = (preid)=>{
+        return basketItems.some(obj=>obj.preid == preid);
+    }
 
    
      
@@ -100,7 +112,6 @@ export default function App(){
     const route = ()=>{
         if(router.pathname === "/favorite"){
             return <Favorites
-                items={favoriteItems}
                 onAddToFavorite={onAddToFavorite}
                 onAddToCard={onAddToCard}
                 basketItems={basketItems}/>
@@ -116,13 +127,14 @@ export default function App(){
                 items={items}
                 onAddToCard={onAddToCard}
                 onAddToFavorite={onAddToFavorite}
+                isLoading = {isLoading}
                 />
         }
     }
     
     return(
-        
-        <div onDragStart={(e)=>e.preventDefault()}>
+        <AppContext.Provider value={{items,basketItems,favoriteItems,isAddedItems}}>
+            <div onDragStart={(e)=>e.preventDefault()}>
             
             <Head>
                 <title> sneakers-shop</title>
@@ -142,6 +154,6 @@ export default function App(){
                 
             </div>
         </div>
-        
+        </AppContext.Provider>  
     )
 }

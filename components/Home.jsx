@@ -12,9 +12,9 @@ export default function Home ({searchValue,onChangeSearchInput,items, onAddToCar
                     key ={!isLoading ? card.key: uuidv4()}
                     {...card}
                     onFavorite ={onAddToFavorite}
-                    onPlus ={(obj)=>onAddToCard(obj)}
+                    onPlus ={onAddToCard}
                     
-                    isFavorite = {favoriteItems.some(obj => obj.preid == card.preid)}
+                    isFavorite = {favoriteItems.some(obj => obj.id == card.id)}
                     loading={isLoading}
                     />
                 )

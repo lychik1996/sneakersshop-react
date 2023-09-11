@@ -9,7 +9,7 @@ const [showOrder, setShowOrder] = useState(false);
                 <p className="rightSide_item_name">{obj.name}</p>
                 <p className="rightSide_item_price">{obj.price} grn</p>
             </div>
-            <img onClick={()=>onRemove(obj.preid)} src="clear.png" alt="" className="rightSide_item_clear" />
+            <img onClick={()=>onRemove(obj.id)} src="clear.png" alt="" className="rightSide_item_clear" />
         </li>
     ))
     const suma = items.reduce((acum, obj)=>{

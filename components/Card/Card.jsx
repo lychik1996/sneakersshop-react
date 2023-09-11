@@ -5,20 +5,20 @@
 import AppContext from "../Context";
 import { useContext } from "react";
 
- export default function Card({ preid, name, price, src, onPlus, onFavorite, isFavorite = false , added = false, loading }){
+ export default function Card({ id, name, price, src, onPlus, onFavorite, isFavorite = false , added = false, loading }){
     const {isAddedItems} = useContext(AppContext);
     
 
     const [isHeart, setIsHeart] = useState(isFavorite);
     
     const check = ()=>{
-        onPlus({name, price, src, preid});
+        onPlus({name, price, src, id});
         
           
     }
     
     const heart = ()=>{
-        onFavorite({name, price, src, preid})
+        onFavorite({name, price, src, id})
         setIsHeart(!isHeart);
     }
     
@@ -49,7 +49,7 @@ import { useContext } from "react";
                         <p className={style.top}>Price:</p>
                         <p className={style.price}>{price} grn.</p>
                     </div>
-                    <img src={!isAddedItems(preid)?"check1.svg" : "check2.svg"} alt="" className={style.check} onClick={check} />
+                    <img src={!isAddedItems(id)?"check1.svg" : "check2.svg"} alt="" className={style.check} onClick={check} />
                 </div>
             </>}     
         </li>

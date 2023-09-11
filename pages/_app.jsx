@@ -28,19 +28,17 @@ export default function App(){
     
     useEffect(()=>{
         async function data (){
-            const cartResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/basketItems");
+            const cartResponse = await axios.get("http://localhost:3001/basket");
             
             
-            const favoriteResponse = await axios.get("https://64f732139d775408495346e8.mockapi.io/favoriteItems");
+            const favoriteResponse = await axios.get("http://localhost:3001/favorite");
             const itemsResponse = await axios.get("item.json");
-            setIsLoading(false);
-            
-            
             
             
             setBasketItems(cartResponse.data);
             setFavoriteItems(favoriteResponse.data);
             setItems(itemsResponse.data);
+            setIsLoading(false);
             
             const calcSum = cartResponse.data.reduce((acum, obj)=>{
                 return acum+obj.price;
@@ -55,25 +53,31 @@ export default function App(){
     
     const onAddToCard = async (obj)=>{
         
-        if(basketItems.find(favObj =>favObj.preid == obj.preid)){
-             await axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${obj.preid}`) 
-            setBasketItems((prev)=>prev.filter((item)=>item.preid != obj.preid));
+        if(basketItems.find(favObj =>favObj.id == obj.id)){
+             await axios.delete(`http://localhost:3001/basket/${obj.id}`) 
+            setBasketItems((prev)=>prev.filter((item)=>item.id != obj.id));
             
               
                  
         }else{
-            const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/basketItems", obj);
+            const {data} = await axios.post("http://localhost:3001/basket", obj);
             setBasketItems((prev)=>[...prev, data]);
             
         }   
         updateSuma();      
     }
     
-    const onRemoveCard = (preid)=>{
-        axios.delete(`https://64f732139d775408495346e8.mockapi.io/basketItems/${preid}`);
-        setBasketItems((prev)=>prev.filter((item)=>item.preid != preid));
-        updateSuma();
-    }
+    const onRemoveCard = async (id) => {
+        try {
+          const response = await axios.delete(`http://localhost:3001/basket/${id}`);
+          if (response.status === 200) {
+            setBasketItems((prev) => prev.filter((item) => item.id !== id));
+          }
+          updateSuma();
+        } catch (error) {
+          console.error("Помилка при видаленні з кошика: ", error);
+        }
+      };
     const updateSuma = () => {
         const newSuma = basketItems.reduce((acum, obj) => {
           return acum + obj.price;
@@ -88,23 +92,29 @@ export default function App(){
     
     
 
-    const onAddToFavorite =  async (obj)=>{
-        
-        if(favoriteItems.find(favObj=>favObj.preid == obj.preid)){
-        axios.delete(`https://64f732139d775408495346e8.mockapi.io/favoriteItems/${obj.preid}`);
-        setFavoriteItems((prev)=>prev.filter((item)=>item.preid != obj.preid))
-        } else{
-            const {data} = await axios.post("https://64f732139d775408495346e8.mockapi.io/favoriteItems", obj)
-            setFavoriteItems((prev)=>[...prev, data]);
-            
+    const onAddToFavorite = async (obj) => {
+        try {
+          if (favoriteItems.find((favObj) => favObj.id === obj.id)) {
+            await axios.delete(`http://localhost:3001/favorite/${obj.id}`);
+            setFavoriteItems((prev) => prev.filter((item) => item.id !== obj.id));
+          } else {
+            const response = await axios.post("http://localhost:3001/favorite", obj);
+            if (response.status === 201) {
+              setFavoriteItems((prev) => [...prev, response.data]);
+            }
+          }
+        } catch (error) {
+          console.error("Помилка при роботі з обраними елементами: ", error);
         }
-    }
-    const isAddedItems = (preid)=>{
-        return basketItems.some(obj=>obj.preid == preid);
+      };
+
+
+
+    const isAddedItems = (id)=>{
+        return basketItems.some(obj=>obj.id == id);
     }
 
-   
-     
+
     const onChangeSearchInput =(event)=>{
         
         setSearcValue(event.target.value);

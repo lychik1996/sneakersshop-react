@@ -39,7 +39,7 @@ export default function Favorites ({onAddToFavorite, onAddToCard,basketItems}){
                     onFavorite ={onAddToFavorite}
                     onPlus ={onAddToCard}
                     isFavorite = {true}
-                    added = {basketItems.some(obj=>obj.preid == card.preid )}
+                    added = {basketItems.some(obj=>obj.id == card.id )}
                     {...card}
                     />
                 )} 

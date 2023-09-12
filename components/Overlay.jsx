@@ -1,9 +1,19 @@
 import { useState } from "react";
-export default function Overlay({onClickClose, items = [],onRemove, }){
+import axios from "axios";
+
+
+
+const delay =(ms)=>  new Promise((resolve)=> setTimeout(resolve, ms));
+
+
+export default function Overlay({onClickClose, items = [],onRemove, setBasketItems}){
+
 const [showOrder, setShowOrder] = useState(false);
+const [orderId, setOrderId] = useState(null);
+const [isLoading, setIsLoading] = useState(false);
     const elem = items
     .map((obj, index)=>(
-        <li className="rightSide_item" key={index}>
+        <li className="rightSide_item" key={obj.id}>
             <img src={obj.src} alt="" className="rightSide_item_img" width={70} height={70} />
             <div className="rightSide_item_info">
                 <p className="rightSide_item_name">{obj.name}</p>
@@ -15,6 +25,28 @@ const [showOrder, setShowOrder] = useState(false);
     const suma = items.reduce((acum, obj)=>{
         return acum + obj.price;
     },0);
+    const ordered = async () => {
+        try {
+            setIsLoading(true);
+            const {data} = await axios.post("http://localhost:3001/order", {
+                order: items,
+            } );
+            
+            setOrderId(data.id);
+            
+            setBasketItems([]);
+            setShowOrder(true);
+            for(  let i=0; i<items.length;i++){
+                const item = items[i];
+                await axios.delete(`http://localhost:3001/basket/`+ item.id);
+                await delay(1000);
+            }
+            
+        } catch (error) {
+            console.error("Помилка під час видалення:", error);
+        }
+        setIsLoading(false);
+    };
     
     const Clear = ()=>{
         return(
@@ -33,7 +65,7 @@ const [showOrder, setShowOrder] = useState(false);
             <div className="rightSide_clear">
                     <img src="basketChecked.png" alt="" className="checked_img" />
                     <p className="rightSide_clear_top checked_top">Order is processed!</p>
-                    <p className="rightSide_clear_bot">Your order #18 will be delivered to courier soon</p>
+                    <p className="rightSide_clear_bot">Your order #{orderId} will be delivered to courier soon</p>
                     <button className="rightSide_clear_btn" onClick={onClickClose}> <img className="rightSide_btn_arrow" src="arrow.svg" alt="" /> Come back</button>
             </div>
         )
@@ -50,7 +82,7 @@ const [showOrder, setShowOrder] = useState(false);
                 <div className="rightSide_string"></div>
                 <p className="rightSide_sum">{suma} grn</p>
             </div>
-            <button className="rightSide_btn" onClick={()=>setShowOrder(true)}>Checkout <img src="arrow.svg" alt="" className="rightSide_btn_arrow" /></button>
+            <button className="rightSide_btn"disabled={isLoading} onClick={()=>ordered()}>Checkout <img src="arrow.svg" alt="" className="rightSide_btn_arrow" /></button>
             </>
         )
     }

@@ -4,12 +4,12 @@
  
 import AppContext from "../Context";
 import { useContext } from "react";
+import { useRouter } from "next/router";
 
- export default function Card({ id, name, price, src, onPlus, onFavorite, isFavorite = false , added = false, loading }){
+ export default function Card({ id, name, price, src, onPlus, onFavorite, isFavorite = false , added = false, loading, }){
     const {isAddedItems} = useContext(AppContext);
-    
-
     const [isHeart, setIsHeart] = useState(isFavorite);
+    const router = useRouter();
     
     const check = ()=>{
         onPlus({name, price, src, id});
@@ -23,7 +23,7 @@ import { useContext } from "react";
     }
     
     return(
-        <li className={style.item} >
+        <li className={style.item}  >
             {loading? <ContentLoader 
                 speed={2}
                 width={210}
@@ -41,7 +41,7 @@ import { useContext } from "react";
                 <rect x="148" y="192" rx="10" ry="10" width="32" height="32" />
             </ContentLoader>: 
             <>
-            <img src={!isHeart?"heartForSneakers1.png" : "heartForSneakers2.svg" } alt=""  className={style.heart} onClick={heart}/>
+            {!(router.pathname === "/orders") &&<img src={!isHeart?"heartForSneakers1.png" : "heartForSneakers2.svg" } alt=""  className={style.heart} onClick={heart}/>}
                 <img src={src} alt="" className={style.img} />
                 <p className={style.name}>{name}</p>
                 <div className={style.any}>
@@ -49,7 +49,8 @@ import { useContext } from "react";
                         <p className={style.top}>Price:</p>
                         <p className={style.price}>{price} grn.</p>
                     </div>
-                    <img src={!isAddedItems(id)?"check1.svg" : "check2.svg"} alt="" className={style.check} onClick={check} />
+                    {!(router.pathname === "/orders") && <img src={!isAddedItems(id)?"check1.svg" : "check2.svg"} alt="" className={style.check} onClick={check} /> }
+                    
                 </div>
             </>}     
         </li>

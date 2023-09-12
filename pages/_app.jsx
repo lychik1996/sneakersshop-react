@@ -26,15 +26,16 @@ export default function App(){
     
     
     
+    
+    
     useEffect(()=>{
         async function data (){
             const cartResponse = await axios.get("http://localhost:3001/basket");
             
-            
+
             const favoriteResponse = await axios.get("http://localhost:3001/favorite");
             const itemsResponse = await axios.get("item.json");
-            
-            
+             
             setBasketItems(cartResponse.data);
             setFavoriteItems(favoriteResponse.data);
             setItems(itemsResponse.data);
@@ -53,7 +54,7 @@ export default function App(){
     
     const onAddToCard = async (obj)=>{
         
-        if(basketItems.find(favObj =>favObj.id == obj.id)){
+        if(basketItems.find((favObj) =>favObj.id == obj.id)){
              await axios.delete(`http://localhost:3001/basket/${obj.id}`) 
             setBasketItems((prev)=>prev.filter((item)=>item.id != obj.id));
             
@@ -67,11 +68,12 @@ export default function App(){
         updateSuma();      
     }
     
+    
     const onRemoveCard = async (id) => {
         try {
           const response = await axios.delete(`http://localhost:3001/basket/${id}`);
           if (response.status === 200) {
-            setBasketItems((prev) => prev.filter((item) => item.id !== id));
+            setBasketItems((prev) => prev.filter((item) => item.id != id));
           }
           updateSuma();
         } catch (error) {
@@ -94,9 +96,9 @@ export default function App(){
 
     const onAddToFavorite = async (obj) => {
         try {
-          if (favoriteItems.find((favObj) => favObj.id === obj.id)) {
+          if (favoriteItems.find((favObj) => favObj.id == obj.id)) {
             await axios.delete(`http://localhost:3001/favorite/${obj.id}`);
-            setFavoriteItems((prev) => prev.filter((item) => item.id !== obj.id));
+            setFavoriteItems((prev) => prev.filter((item) => item.id != obj.id));
           } else {
             const response = await axios.post("http://localhost:3001/favorite", obj);
             if (response.status === 201) {
@@ -127,6 +129,7 @@ export default function App(){
                 basketItems={basketItems}/>
         }else if(router.pathname === "/orders"){
              return <Orders
+              
                 />
         }else{
             return <Home 
@@ -151,7 +154,10 @@ export default function App(){
             </Head>
             <div className="wrapper">
             
-                {basket && <Overlay  items ={basketItems}  onClickClose ={()=>setBasket(false)} onRemove={onRemoveCard} />}
+                {basket && <Overlay
+                  items ={basketItems}
+                    onClickClose ={()=>setBasket(false)}
+                     onClickCloseClear={()=>setBasket(false)} onRemove={onRemoveCard} setBasketItems={setBasketItems} />}
                 
                 <Header
                     suma={suma}

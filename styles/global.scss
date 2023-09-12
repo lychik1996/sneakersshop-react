@@ -310,6 +310,10 @@ a{
         color: #FFF;
         text-align: center;
         transition: transform 0.3s ease-in-out;
+        &:disabled{
+        cursor: default;
+        opacity: 0.3;
+        }
         
         cursor: pointer;
         .rightSide_btn_arrow{
@@ -334,6 +338,16 @@ a{
         font-size: 32px;
         font-weight: 700;
         
+    }
+    .order_btn{
+        position: absolute;
+        z-index: 1;
+        right: 80px;
+        cursor: pointer;
+        &:disabled{
+            cursor: default;
+            opacity: 0.3;
+        }
     }
 }
 .favorite_clear, .orders_clear{
